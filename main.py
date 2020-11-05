@@ -1,133 +1,74 @@
-def insert_first():
-    first_rows, first_columns = input("Enter size of first matrix: ").split()
-    first_rows = int(first_rows)
-    first_columns = int(first_columns)
-    first_matrix = []
-    print("Enter first matrix: ")
-    for j in range(0, first_rows):
-        first_matrix.append([float(j) for j in input().split()])
-    return first_rows, first_columns, first_matrix
+class Matrix:
+    def __init__(self, rows, columns):
+        self.rows = rows
+        self.columns = columns
+
+    def insert(self):
+        new_matrix = []
+        print("Enter matrix: ")
+        for j in range(0, self.rows):
+            new_matrix.append([float(j) for j in input().split()])
+        return new_matrix
 
 
-def insert_second():
-    second_rows, second_columns = input("Enter size of second matrix: ").split()
-    second_rows = int(second_rows)
-    second_columns = int(second_columns)
-    second_matrix = []
-    print("Enter second matrix: ")
-    for x in range(0, second_rows):
-        second_matrix.append([float(x) for x in input().split()])
-    return second_rows, second_columns, second_matrix
+def matrix_size():
+    rows, columns = input("Enter size of matrix: ").split()
+    return int(rows), int(columns)
+
+
+def print_result(matrix):
+    print("The result is:")
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
+            print(matrix[i][j], end=" ")
+        print()
+    print("")
 
 
 # ADD MATRIX
-def add_matrix():
-    first_rows, first_columns, first_matrix = insert_first()
-    second_rows, second_columns, second_matrix = insert_second()
+def add_matrix(matrix1, matrix2):
 
-    if first_rows == second_rows and first_columns == second_columns:
-        new_matrix = [[first_matrix[i][j] + second_matrix[i][j] for j in range(len(first_matrix[0]))] for i in
-                      range(len(first_matrix))]
+    if len(matrix1) == len(matrix2) and len(matrix1[0]) == len(matrix2[0]):
+        new_matrix = [[matrix1[i][j] + matrix2[i][j] for j in range(len(matrix1[0]))] for i in
+                      range(len(matrix1))]
 
-        print("The result is:")
-        for i in range(first_rows):
-            for j in range(first_columns):
-                print(new_matrix[i][j], end=" ")
-            print()
-        print("")
+        print_result(new_matrix)
     else:
         print("ERROR")
+
+    menu()
 
 
 # MULTIPLY BY CONST
-def multiply_by_const():
-    first_rows, first_columns, first_matrix = insert_first()
+def multiply_by_const(matrix):
 
     CONST = int(input("Enter constant: "))
-    new_matrix = [[first_matrix[i][j] * CONST for j in range(len(first_matrix[0]))] for i in
-                  range(len(first_matrix))]
+    new_matrix = [[matrix[i][j] * CONST for j in range(len(matrix[0]))] for i in
+                  range(len(matrix))]
 
-    print("The result is:")
-    for i in range(first_rows):
-        for j in range(first_columns):
-            print(new_matrix[i][j], end=" ")
-        print()
-    print("")
+    print_result(new_matrix)
+
+    menu()
 
 
 # MULTIPLY BY MATRIX
-def multiply_by_matrix():
-    first_rows, first_columns, first_matrix = insert_first()
-    second_rows, second_columns, second_matrix = insert_second()
-    if first_columns == second_rows:
-        result = [[0 for j in range(len(second_matrix[0]))] for i in
-                      range(len(first_matrix))]
-        for i in range(len(first_matrix)):
+def multiply_by_matrix(matrix1, matrix2):
+    if len(matrix1) == len(matrix2[0]):
+        result = [[0 for j in range(len(matrix2[0]))] for i in
+                      range(len(matrix1))]
+        for i in range(len(matrix1)):
             # iterate through columns of Y
-            for j in range(len(second_matrix[0])):
+            for j in range(len(matrix2[0])):
                 # iterate through rows of Y
-                for k in range(len(second_matrix)):
-                    result[i][j] += first_matrix[i][k] * second_matrix[k][j]
+                for k in range(len(matrix2)):
+                    result[i][j] += matrix1[i][k] * matrix2[k][j]
 
-        print("The result is:")
-        for i in range(first_rows):
-            for j in range(second_columns):
-                print(result[i][j], end=" ")
-            print()
-        print("")
+        print_result(result)
 
     else:
         print("ERROR")
 
-
-def main_diag_trans():
-    first_rows, first_columns, first_matrix = insert_first()
-    new_matrix = [[first_matrix[j][i] for j in range(len(first_matrix))] for i in range(len(first_matrix[0]))]
-
-    print("The result is:")
-    for i in range(first_rows):
-        for j in range(first_columns):
-            print(new_matrix[i][j], end=" ")
-        print()
-    print("")
-
-
-def side_diag_trans():
-    first_rows, first_columns, first_matrix = insert_first()
-    new_matrix = [[first_matrix[len(first_matrix[0]) - j - 1][len(first_matrix) - i - 1] for j in range(len(first_matrix))] for i in range(len(first_matrix[0]))]
-
-
-    print("The result is:")
-    for i in range(first_rows):
-        for j in range(first_columns):
-            print(new_matrix[i][j], end=" ")
-        print()
-    print("")
-
-
-def vertical_trans():
-    first_rows, first_columns, first_matrix = insert_first()
-    new_matrix = [[first_matrix[i][len(first_matrix) - j - 1] for j in range(len(first_matrix[0]))] for i in range(len(first_matrix))]
-
-
-    print("The result is:")
-    for i in range(first_rows):
-        for j in range(first_columns):
-            print(new_matrix[i][j], end=" ")
-        print()
-    print("")
-
-
-def horizontal_trans():
-    first_rows, first_columns, first_matrix = insert_first()
-    new_matrix = [[first_matrix[len(first_matrix[0]) - i - 1][j] for j in range(len(first_matrix))] for i in range(len(first_matrix[0]))]
-
-    print("The result is:")
-    for i in range(first_rows):
-        for j in range(first_columns):
-            print(new_matrix[i][j], end=" ")
-        print()
-    print("")
+    menu()
 
 
 # TRANSPOSE MATRIX
@@ -135,21 +76,53 @@ def transpose_matrix():
     print("1. Main diagonal\n2. Side diagonal\n3. Vertical line\n4. Horizontal line")
     command = int(input("Your choice: "))
     if command == 1:
-        main_diag_trans()
+        first_rows, first_columns = matrix_size()
+        matrix1 = Matrix(first_rows, first_columns)
+        matrix1_list = matrix1.insert()
+        main_diag_trans(matrix1_list)
         menu()
     elif command == 2:
-        side_diag_trans()
+        first_rows, first_columns = matrix_size()
+        matrix1 = Matrix(first_rows, first_columns)
+        matrix1_list = matrix1.insert()
+        side_diag_trans(matrix1_list)
         menu()
     elif command == 3:
-        vertical_trans()
+        first_rows, first_columns = matrix_size()
+        matrix1 = Matrix(first_rows, first_columns)
+        matrix1_list = matrix1.insert()
+        vertical_trans(matrix1_list)
         menu()
     elif command == 4:
-        horizontal_trans()
+        first_rows, first_columns = matrix_size()
+        matrix1 = Matrix(first_rows, first_columns)
+        matrix1_list = matrix1.insert()
+        horizontal_trans(matrix1_list)
         menu()
+
+
+def main_diag_trans(matrix):
+    new_matrix = [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]
+    print_result(new_matrix)
+
+
+def side_diag_trans(matrix):
+    new_matrix = [[matrix[len(matrix[0]) - j - 1][len(matrix) - i - 1] for j in range(len(matrix))] for i in range(len(matrix[0]))]
+    print_result(new_matrix)
+
+
+def vertical_trans(matrix):
+    new_matrix = [[matrix[i][len(matrix) - j - 1] for j in range(len(matrix[0]))] for i in range(len(matrix))]
+    print_result(new_matrix)
+
+
+def horizontal_trans(matrix):
+    new_matrix = [[matrix[len(matrix[0]) - i - 1][j] for j in range(len(matrix))] for i in range(len(matrix[0]))]
+    print_result(new_matrix)
 
 
 # DETERMINANT MATRIX
-def getMatrixMinor(m,i,j):
+def matrix_minor(m,i,j):
     return [row[:j] + row[j+1:] for row in (m[:i]+m[i+1:])]
 
 
@@ -162,24 +135,23 @@ def determinant_matrix(matrix):
         return det
     else:
         for i in range(len(matrix)):
-            det += ((-1)**i)*matrix[0][i]*determinant_matrix(getMatrixMinor(matrix,0,i))
+            det += ((-1)**i)*matrix[0][i]*determinant_matrix(matrix_minor(matrix,0,i))
         return det
 
 
 # INVERSE MATRIX
-def inverse_matrix():
-    first_rows, first_columns, first_matrix = insert_first()
-    first_det = determinant_matrix(first_matrix)
+def inverse_matrix(matrix):
+    first_det = determinant_matrix(matrix)
 
     if first_det == 0:
         print("This matrix doesn't have an inverse.")
         menu()
     else:
         cofactors = []
-        for r in range(len(first_matrix)):
+        for r in range(len(matrix)):
             cofactor_row = []
-            for c in range(len(first_matrix)):
-                minor = getMatrixMinor(first_matrix, r, c)
+            for c in range(len(matrix)):
+                minor = matrix_minor(matrix, r, c)
                 cofactor_row.append(((-1) ** (r + c)) * determinant_matrix(minor))
             cofactors.append(cofactor_row)
         new_matrix = [[cofactors[j][i] for j in range(len(cofactors))] for i in range(len(cofactors[0]))]
@@ -187,36 +159,46 @@ def inverse_matrix():
             for c in range(len(new_matrix)):
                 new_matrix[r][c] = new_matrix[r][c] / first_det
 
-        print("The result is:")
-        for i in range(len(new_matrix[0])):
-            for j in range(len(new_matrix)):
-                print(new_matrix[i][j], end=" ")
-            print()
-        print("")
-        return new_matrix
+        print_result(new_matrix)
 
 
 def menu():
     print("1. Add matrices\n2. Multiply matrix by a constant\n3. Multiply matrices\n4. Transpose matrix\n5. Calculate a determinant\n6. Inverse matrix\n0. Exit")
     command = int(input("Your choice: "))
     if command == 1:
-        add_matrix()
-        menu()
+        first_rows, first_columns = matrix_size()
+        matrix1 = Matrix(first_rows, first_columns)
+        matrix1_list = matrix1.insert()
+        second_rows, second_columns = matrix_size()
+        matrix2 = Matrix(second_rows, second_columns)
+        matrix2_list = matrix2.insert()
+        add_matrix(matrix1_list, matrix2_list)
     elif command == 2:
-        multiply_by_const()
-        menu()
+        first_rows, first_columns = matrix_size()
+        matrix1 = Matrix(first_rows, first_columns)
+        matrix1_list = matrix1.insert()
+        multiply_by_const(matrix1_list)
     elif command == 3:
-        multiply_by_matrix()
-        menu()
+        first_rows, first_columns = matrix_size()
+        matrix1 = Matrix(first_rows, first_columns)
+        matrix1_list = matrix1.insert()
+        second_rows, second_columns = matrix_size()
+        matrix2 = Matrix(second_rows, second_columns)
+        matrix2_list = matrix2.insert()
+        multiply_by_matrix(matrix1_list, matrix2_list)
     elif command == 4:
         transpose_matrix()
-        menu()
     elif command == 5:
-        first_rows, first_columns, first_matrix = insert_first()
-        print(determinant_matrix(first_matrix))
+        first_rows, first_columns = matrix_size()
+        matrix1 = Matrix(first_rows, first_columns)
+        matrix1_list = matrix1.insert()
+        print(determinant_matrix(matrix1_list))
         menu()
     elif command == 6:
-        inverse_matrix()
+        first_rows, first_columns = matrix_size()
+        matrix1 = Matrix(first_rows, first_columns)
+        matrix1_list = matrix1.insert()
+        inverse_matrix(matrix1_list)
         menu()
     elif command == 0:
         exit()
